@@ -14,6 +14,11 @@ import {makeStyles} from '@material-ui/core/styles'
 import {create} from './api-post.js'
 import IconButton from '@material-ui/core/IconButton'
 import PhotoCamera from '@material-ui/icons/PhotoCamera'
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -21,7 +26,7 @@ const useStyles = makeStyles(theme => ({
     padding: `${theme.spacing(3)}px 0px 1px`
   },
   card: {
-    maxWidth:600,
+    maxWidth: 600,
     margin: 'auto',
     marginBottom: theme.spacing(3),
     backgroundColor: 'rgba(65, 150, 136, 0.09)',
@@ -61,6 +66,7 @@ export default function NewPost (props){
   const [values, setValues] = useState({
     text: '',
     photo: '',
+    altText: '',
     error: '',
     user: {}
   })
@@ -68,10 +74,23 @@ export default function NewPost (props){
   useEffect(() => {
     setValues({...values, user: auth.isAuthenticated().user})
   }, [])
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+
   const clickPost = () => {
     let postData = new FormData()
     postData.append('text', values.text)
     postData.append('photo', values.photo)
+    postData.append('altText', values.altText)
     create({
       userId: jwt.user._id
     }, {
@@ -80,7 +99,7 @@ export default function NewPost (props){
       if (data.error) {
         setValues({...values, error: data.error})
       } else {
-        setValues({...values, text:'', photo: ''})
+        setValues({...values, text:'', photo: '', altText:''})
         props.addUpdate(data)
       }
     })
@@ -124,9 +143,44 @@ export default function NewPost (props){
         }
       </CardContent>
       <CardActions>
-        <Button color="primary" variant="contained" disabled={values.text === ''} onClick={clickPost} className={classes.submit}>POST</Button>
+        { values.photo === '' ?
+        <Button color="primary" variant="contained" disabled={values.text === ''} onClick={clickPost} className={classes.submit}>POST</Button> :
+        <Button color="primary" variant="contained" disabled={values.text === ''} onClick={handleClickOpen} className={classes.submit}>POST</Button>
+        }
+        
       </CardActions>
     </Card>
+
+    <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Add Alt Text?"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Describe the photo and its context for someone who cannot see it.
+          </DialogContentText>
+          <TextField
+            placeholder="Add AT here"
+            multiline
+            rows="3"
+            value={values.altText}
+            onChange={handleChange('altText')}
+            className={classes.textField}
+            margin="normal"
+        />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Skip</Button>
+          <Button onClick={clickPost} autoFocus>
+            Add
+          </Button>
+        </DialogActions>
+      </Dialog>
   </div>)
 
 }

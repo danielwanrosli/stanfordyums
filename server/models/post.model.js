@@ -15,6 +15,10 @@ const PostSchema = new mongoose.Schema({
     postedBy: { type: mongoose.Schema.ObjectId, ref: 'User'}
   }],
   postedBy: {type: mongoose.Schema.ObjectId, ref: 'User'},
+  altText: {
+    type: String
+  },
+
   created: {
     type: Date,
     default: Date.now

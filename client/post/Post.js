@@ -66,8 +66,6 @@ export default function Post (props){
   //   setValues({...values, like:checkLike(props.post.likes), likes: props.post.likes.length, comments: props.post.comments})
   // }, [])
 
-  
-
   const clickLike = () => {
     let callApi = values.like ? unlike : like
     callApi({
@@ -127,6 +125,10 @@ export default function Post (props){
                 src={'/api/posts/photo/'+props.post._id}
                 />
             </div>)}
+          <Typography component="p" className={classes.text}>
+            Alternative Text: {props.post.altText}
+          </Typography>
+          
         </CardContent>
         <CardActions>
           { values.like
