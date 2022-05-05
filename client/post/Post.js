@@ -126,7 +126,7 @@ export default function Post (props){
                 />
             </div>)}
           <Typography component="p" className={classes.text}>
-            Alternative Text: {props.post.altText}
+            {props.post.altText && "Alternative Text: " + props.post.altText}
           </Typography>
           
         </CardContent>

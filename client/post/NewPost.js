@@ -103,6 +103,7 @@ export default function NewPost (props){
         props.addUpdate(data)
       }
     })
+    setOpen(false);
   }
   const handleChange = name => event => {
     const value = name === 'photo'
