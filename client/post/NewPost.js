@@ -123,7 +123,7 @@ export default function NewPost (props){
           />
       <CardContent className={classes.cardContent}>
         <TextField
-            placeholder="Share your thoughts ..."
+            placeholder="Share your thoughts..."
             multiline
             rows="3"
             value={values.text}
@@ -142,46 +142,22 @@ export default function NewPost (props){
               {values.error}
             </Typography>)
         }
-      </CardContent>
-      <CardActions>
-        { values.photo === '' ?
-        <Button color="primary" variant="contained" disabled={values.text === ''} onClick={clickPost} className={classes.submit}>POST</Button> :
-        <Button color="primary" variant="contained" disabled={values.text === ''} onClick={handleClickOpen} className={classes.submit}>POST</Button>
-        }
         
-      </CardActions>
-    </Card>
-
-    <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {"Add Alt Text?"}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Describe the photo and its context for someone who cannot see it.
-          </DialogContentText>
-          <TextField
-            placeholder="Add AT here"
+        {values.photo !== '' && <TextField
+            placeholder="Write alt text..."
             multiline
-            rows="3"
+            rows="1"
             value={values.altText}
             onChange={handleChange('altText')}
             className={classes.textField}
             margin="normal"
-        />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Skip</Button>
-          <Button onClick={clickPost} autoFocus>
-            Add
-          </Button>
-        </DialogActions>
-      </Dialog>
+        /> }
+      </CardContent>
+      <CardActions>
+        <Button color="primary" variant="contained" disabled={values.text === ''} onClick={clickPost} className={classes.submit}>POST</Button> :
+      </CardActions>
+    </Card>
+
   </div>)
 
 }
