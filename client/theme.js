@@ -4,9 +4,9 @@ import { teal, orange } from '@material-ui/core/colors'
 const theme = createMuiTheme({
     palette: {
       primary: {
-      light: '#52c7b8',
+      light: '#B83A4B',
       main: '#8C1515',
-      dark: '#00675b',
+      dark: '#820000',
       contrastText: '#fff',
     },
     secondary: {
@@ -15,7 +15,7 @@ const theme = createMuiTheme({
       dark: '#c77800',
       contrastText: '#000',
     },
-      openTitle: teal['700'],
+      openTitle: '#820000',
       protectedTitle: orange['700'],
       type: 'light'
     }
