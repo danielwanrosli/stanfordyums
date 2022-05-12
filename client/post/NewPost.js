@@ -85,7 +85,6 @@ export default function NewPost (props){
     setOpen(false);
   };
 
-
   const clickPost = () => {
     let postData = new FormData()
     postData.append('text', values.text)
@@ -105,6 +104,26 @@ export default function NewPost (props){
     })
     setOpen(false);
   }
+
+  const clickPostSkip = () => {
+    let postData = new FormData()
+    postData.append('text', values.text)
+    postData.append('photo', values.photo)
+    create({
+      userId: jwt.user._id
+    }, {
+      t: jwt.token
+    }, postData).then((data) => {
+      if (data.error) {
+        setValues({...values, error: data.error})
+      } else {
+        setValues({...values, text:'', photo: '', altText:''})
+        props.addUpdate(data)
+      }
+    })
+    setOpen(false);
+  }
+
   const handleChange = name => event => {
     const value = name === 'photo'
       ? event.target.files[0]
@@ -123,7 +142,7 @@ export default function NewPost (props){
           />
       <CardContent className={classes.cardContent}>
         <TextField
-            placeholder="Share your thoughts..."
+            placeholder="Share your thoughts ..."
             multiline
             rows="3"
             value={values.text}
@@ -142,7 +161,7 @@ export default function NewPost (props){
               {values.error}
             </Typography>)
         }
-        
+
         {values.photo !== '' && <TextField
             placeholder="Write alt text..."
             multiline
@@ -152,12 +171,47 @@ export default function NewPost (props){
             className={classes.textField}
             margin="normal"
         /> }
+
       </CardContent>
       <CardActions>
+        { values.altText !== '' ?
         <Button color="primary" variant="contained" disabled={values.text === ''} onClick={clickPost} className={classes.submit}>POST</Button> :
+        <Button color="primary" variant="contained" disabled={values.text === ''} onClick={handleClickOpen} className={classes.submit}>POST</Button>
+        }
+        
       </CardActions>
     </Card>
 
+    <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Add Alt Text?"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Hi! We noticed you did not add alt text. Would you like to add alt text?
+          </DialogContentText>
+          <TextField
+            placeholder="Add AT here"
+            multiline
+            rows="3"
+            value={values.altText}
+            onChange={handleChange('altText')}
+            className={classes.textField}
+            margin="normal"
+        />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={clickPostSkip}>Skip</Button>
+          <Button onClick={clickPost} autoFocus>
+            Add
+          </Button>
+        </DialogActions>
+      </Dialog>
   </div>)
 
 }
