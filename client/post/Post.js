@@ -122,9 +122,10 @@ export default function Post (props){
             (<div className={classes.photo}>
               <img
                 className={classes.media}
-                src={'/api/posts/photo/'+props.post._id}
+                src={'/api/posts/photo/' + props.post._id}
                 />
             </div>)}
+            {console.log(props.post)}
           <Typography component="p" className={classes.text}>
             {props.post.altText && "Alternative Text: " + props.post.altText}
           </Typography>

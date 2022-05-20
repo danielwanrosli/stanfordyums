@@ -4,6 +4,7 @@ import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
 import CardContent from '@material-ui/core/CardContent'
 import CardActions from '@material-ui/core/CardActions'
+import CardMedia from '@material-ui/core/CardMedia'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
@@ -19,6 +20,11 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Tags from './Tags'
+import fork from './../assets/images/fork.png'
+
+
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -53,6 +59,17 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(2),
     width: '90%'
   },
+  center: {
+    textAlign: 'center',
+    display: 'block',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 'auto',
+    width: '100%'
+  },
+  checkbox: {
+    marginLeft: theme.spacing(2)
+  },
   submit: {
     margin: theme.spacing(2)
   },
@@ -61,13 +78,14 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function NewPost (props){
+export default function NewPost (props) {
   const classes = useStyles()
   const [values, setValues] = useState({
     text: '',
     photo: '',
     altText: '',
     error: '',
+    location: '',
     user: {}
   })
   const jwt = auth.isAuthenticated()
@@ -90,6 +108,7 @@ export default function NewPost (props){
     postData.append('text', values.text)
     postData.append('photo', values.photo)
     postData.append('altText', values.altText)
+    postData.append('location', values.location)
     create({
       userId: jwt.user._id
     }, {
@@ -98,7 +117,7 @@ export default function NewPost (props){
       if (data.error) {
         setValues({...values, error: data.error})
       } else {
-        setValues({...values, text:'', photo: '', altText:''})
+        setValues({...values, text:'', photo: '', altText: '', location: ''})
         props.addUpdate(data)
       }
     })
@@ -117,7 +136,7 @@ export default function NewPost (props){
       if (data.error) {
         setValues({...values, error: data.error})
       } else {
-        setValues({...values, text:'', photo: '', altText:''})
+        setValues({...values, text:'', photo: '', altText: '', location: ''})
         props.addUpdate(data)
       }
     })
@@ -129,6 +148,7 @@ export default function NewPost (props){
       ? event.target.files[0]
       : event.target.value
     setValues({...values, [name]: value })
+    // handleClickOpen()
   }
   const photoURL = values.user._id ?'/api/users/photo/'+ values.user._id : '/api/users/defaultphoto'
     return (<div className={classes.root}>
@@ -142,7 +162,7 @@ export default function NewPost (props){
           />
       <CardContent className={classes.cardContent}>
         <TextField
-            placeholder="Share your thoughts ..."
+            placeholder="Write a caption..."
             multiline
             rows="3"
             value={values.text}
@@ -154,6 +174,7 @@ export default function NewPost (props){
         <label htmlFor="icon-button-file">
           <IconButton color="secondary" className={classes.photoButton} component="span">
             <PhotoCamera />
+            <Typography> Upload Image</Typography>
           </IconButton>
         </label> <span className={classes.filename}>{values.photo ? values.photo.name : ''}</span>
         { values.error && (<Typography component="p" color="error">
@@ -162,7 +183,7 @@ export default function NewPost (props){
             </Typography>)
         }
 
-        {values.photo !== '' && <TextField
+        {/* {values.photo !== '' && <TextField
             placeholder="Write alt text..."
             multiline
             rows="1"
@@ -170,14 +191,17 @@ export default function NewPost (props){
             onChange={handleChange('altText')}
             className={classes.textField}
             margin="normal"
-        /> }
+        /> } */}
 
       </CardContent>
       <CardActions>
-        { values.altText !== '' ?
+        {/* { values.altText !== '' ?
         <Button color="primary" variant="contained" disabled={values.text === ''} onClick={clickPost} className={classes.submit}>POST</Button> :
         <Button color="primary" variant="contained" disabled={values.text === ''} onClick={handleClickOpen} className={classes.submit}>POST</Button>
-        }
+        } */}
+
+<Button color="primary" variant="contained" disabled={values.text === ''} onClick={handleClickOpen} className={classes.submit}>POST</Button>
+
         
       </CardActions>
     </Card>
@@ -188,22 +212,82 @@ export default function NewPost (props){
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">
-          {"Add Alt Text?"}
-        </DialogTitle>
+      <DialogTitle id="alert-dialog-title">
+      <Typography variant="h4" align="center">New Post</Typography>
+
+      </DialogTitle>
+
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-          Hi! We noticed that you did not add alt text. Several of your friends added alt text. Would you like to also?
-          </DialogContentText>
-          <TextField
-            placeholder="Add AT here"
+        {/* <img src={'/api/posts/photo/'} height={100} width={100}/> */}
+
+
+        {/* {props.posts.map((item, i) => {
+          return (
+            item !== undefined && i == 3 && <img src={'/api/posts/photo/' + item._id} height={100} width={100}/>
+          )
+          })
+        } */}
+
+        {/* {console.log(props.posts)} */}
+        {console.log(props.posts)}
+        {/* <img src={'/api/posts/photo/' + values._id} height={100} width={100}/> */}
+        {/* <img src={values.photo.webkitRelativePath} height={100} width={100}/> */}
+
+        {/* <img src={'/api/posts/photo/' + this.props.post._id} height={100} width={100} /> */}
+
+        {/* {console.log(values)} */}
+        {/* {console.log(props.post._id)}
+        {console.log('hi')} */}
+
+        {/* <TextField
+            placeholder="Write a caption... (required)"
             multiline
-            rows="3"
+            rows="1"
+            value={values.text}
+            onChange={handleChange('text')}
+            className={classes.textField}
+            margin="normal"
+        /> */}
+        <TextField
+            placeholder="Add location..."
+            multiline
+            rows="1"
+            value={values.location}
+            onChange={handleChange('location')}
+            className={classes.textField}
+            margin="normal"
+        />
+          <TextField
+            placeholder="Write alt text here..."
+            multiline
+            rows="1"
             value={values.altText}
             onChange={handleChange('altText')}
             className={classes.textField}
             margin="normal"
         />
+
+<br></br>
+<br></br>
+
+<input type="checkbox" id="topping" name="topping" value="likes" className={classes.checkbox}  />  Hide likes and views
+<br></br>
+<input type="checkbox" id="lol" name="lol" value="comments" className={classes.checkbox} /> Disable comments
+
+<br></br>
+
+<Tags/>
+
+
+
+
+
+        {/* <br></br>
+        <Typography className={classes.textField}> Hide likes and view counts on this post </Typography>
+        <br></br>
+        <Typography className={classes.textField}> Turn off commenting</Typography> */}
+
+
         </DialogContent>
         <DialogActions>
           <Button onClick={clickPostSkip}>Skip</Button>
@@ -217,6 +301,7 @@ export default function NewPost (props){
 }
 
 NewPost.propTypes = {
-  addUpdate: PropTypes.func.isRequired
+  addUpdate: PropTypes.func.isRequired,
+  posts: PropTypes.array.isRequired
 }
 

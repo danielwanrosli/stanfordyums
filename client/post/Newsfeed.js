@@ -67,7 +67,7 @@ export default function Newsfeed () {
           Newsfeed
         </Typography>
         <Divider/>
-        <NewPost addUpdate={addPost}/>
+        <NewPost addUpdate={addPost} posts={posts}/>
         <Divider/>
         <PostList removeUpdate={removePost} posts={posts}/>
       </Card>
