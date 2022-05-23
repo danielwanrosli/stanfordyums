@@ -183,72 +183,8 @@ export default function NewPost (props) {
             </Typography>)
         }
 
-        {/* {values.photo !== '' && <TextField
-            placeholder="Write alt text..."
-            multiline
-            rows="1"
-            value={values.altText}
-            onChange={handleChange('altText')}
-            className={classes.textField}
-            margin="normal"
-        /> } */}
-
-      </CardContent>
-      <CardActions>
-        {/* { values.altText !== '' ?
-        <Button color="primary" variant="contained" disabled={values.text === ''} onClick={clickPost} className={classes.submit}>POST</Button> :
-        <Button color="primary" variant="contained" disabled={values.text === ''} onClick={handleClickOpen} className={classes.submit}>POST</Button>
-        } */}
-
-<Button color="primary" variant="contained" disabled={values.text === ''} onClick={handleClickOpen} className={classes.submit}>POST</Button>
-
-        
-      </CardActions>
-    </Card>
-
-    <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-      <DialogTitle id="alert-dialog-title">
-      <Typography variant="h4" align="center">New Post</Typography>
-
-      </DialogTitle>
-
-        <DialogContent>
-        {/* <img src={'/api/posts/photo/'} height={100} width={100}/> */}
-
-
-        {/* {props.posts.map((item, i) => {
-          return (
-            item !== undefined && i == 3 && <img src={'/api/posts/photo/' + item._id} height={100} width={100}/>
-          )
-          })
-        } */}
-
-        {/* {console.log(props.posts)} */}
-        {console.log(props.posts)}
-        {/* <img src={'/api/posts/photo/' + values._id} height={100} width={100}/> */}
-        {/* <img src={values.photo.webkitRelativePath} height={100} width={100}/> */}
-
-        {/* <img src={'/api/posts/photo/' + this.props.post._id} height={100} width={100} /> */}
-
-        {/* {console.log(values)} */}
-        {/* {console.log(props.post._id)}
-        {console.log('hi')} */}
-
-        {/* <TextField
-            placeholder="Write a caption... (required)"
-            multiline
-            rows="1"
-            value={values.text}
-            onChange={handleChange('text')}
-            className={classes.textField}
-            margin="normal"
-        /> */}
-        <TextField
+{values.photo && 
+<TextField
             placeholder="Add location..."
             multiline
             rows="1"
@@ -256,8 +192,8 @@ export default function NewPost (props) {
             onChange={handleChange('location')}
             className={classes.textField}
             margin="normal"
-        />
-          <TextField
+        />}
+{values.photo &&           <TextField
             placeholder="Write alt text here..."
             multiline
             rows="1"
@@ -265,29 +201,51 @@ export default function NewPost (props) {
             onChange={handleChange('altText')}
             className={classes.textField}
             margin="normal"
-        />
-
+        /> }
+{values.photo && <br></br> }
+{values.photo && <br></br> }
 <br></br>
-<br></br>
-
 <input type="checkbox" id="topping" name="topping" value="likes" className={classes.checkbox}  />  Hide likes and views
 <br></br>
 <input type="checkbox" id="lol" name="lol" value="comments" className={classes.checkbox} /> Disable comments
-
-<br></br>
-
-<Tags/>
+{values.photo && <br></br> }
+{values.photo && <Tags/> }
 
 
+      </CardContent>
+      <CardActions>
+
+      { values.altText !== '' ?
+        <Button color="primary" variant="contained" disabled={values.text === ''} onClick={clickPost} className={classes.submit}>POST</Button> :
+        <Button color="primary" variant="contained" disabled={values.text === ''} onClick={handleClickOpen} className={classes.submit}>POST</Button>
+      }
+
+      </CardActions>
+    </Card>
 
 
-
-        {/* <br></br>
-        <Typography className={classes.textField}> Hide likes and view counts on this post </Typography>
-        <br></br>
-        <Typography className={classes.textField}> Turn off commenting</Typography> */}
-
-
+    <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Add Alt Text?"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Hi! We noticed you did not add alt text. Would you like to add alt text?
+          </DialogContentText>
+          <TextField
+            placeholder="Add AT here"
+            multiline
+            rows="3"
+            value={values.altText}
+            onChange={handleChange('altText')}
+            className={classes.textField}
+            margin="normal"
+        />
         </DialogContent>
         <DialogActions>
           <Button onClick={clickPostSkip}>Skip</Button>
@@ -296,6 +254,10 @@ export default function NewPost (props) {
           </Button>
         </DialogActions>
       </Dialog>
+
+   
+
+
   </div>)
 
 }
