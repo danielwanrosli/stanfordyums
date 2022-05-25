@@ -235,7 +235,7 @@ export default function NewPost (props) {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-          Hi! We noticed that you did not add alt text. Several of your friends added alt text. Would you like to also?
+          Hi! We noticed you did not add alt text. The OAE recommends adding alt text to help make your post more accessible. Would you like to add alt text?
           </DialogContentText>
           <TextField
             placeholder="Add AT here"
